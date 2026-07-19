@@ -1,0 +1,12 @@
+# Build artifacts
+bin/
+obj/
+
+# IDE
+.vs/
+*.suo
+*.user
+*.sln.docstates
+
+# User-specific
+*.DotSettings.user
