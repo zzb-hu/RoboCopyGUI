@@ -17,4 +17,11 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
+
+  <!-- 排除子项目 RoboCopyGUI.Tests 的源文件，避免被主项目编译 -->
+  <ItemGroup>
+    <Compile Remove="RoboCopyGUI.Tests\**" />
+    <None Remove="RoboCopyGUI.Tests\**" />
+    <EmbeddedResource Remove="RoboCopyGUI.Tests\**" />
+  </ItemGroup>
 </Project>

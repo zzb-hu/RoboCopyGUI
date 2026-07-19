@@ -1,12 +1,33 @@
-# Build artifacts
+# ============ 编译产物 ============
 bin/
 obj/
+*.pdb
+*.exe
+*.dll
 
-# IDE
+# 单文件发布产物（被 bin/ 覆盖，显式提一下防止误提交）
+publish/
+
+# ============ IDE / 编辑器 ============
 .vs/
+.vscode/
+.idea/
 *.suo
 *.user
 *.sln.docstates
-
-# User-specific
 *.DotSettings.user
+
+# ============ 操作系统垃圾 ============
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# ============ 临时 / 备份 ============
+*.log
+*.tmp
+*.bak
+*.swp
+*~
+
+# ============ 用户运行时数据（程序运行时生成，不在项目目录但概念上忽略）============
+# %AppData%\RoboCopyGUI\settings.json

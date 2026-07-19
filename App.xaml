@@ -246,6 +246,80 @@
             <Style TargetType="CheckBox">
                 <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
                 <Setter Property="FontSize" Value="13" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Margin" Value="0,0,0,4" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="CheckBox">
+                            <Grid Background="Transparent">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <!-- 勾选框 16×16，圆角 3px -->
+                                <Border x:Name="CheckBoxBorder"
+                                        Grid.Column="0"
+                                        Width="16" Height="16"
+                                        Margin="0,0,8,0"
+                                        Background="{StaticResource BgInputBrush}"
+                                        BorderBrush="{StaticResource BorderBrush}"
+                                        BorderThickness="1.5"
+                                        CornerRadius="3">
+                                    <!-- 对勾标记 -->
+                                    <Path x:Name="CheckMark"
+                                          Stretch="Uniform"
+                                          Margin="2"
+                                          Data="M 0 5 L 5 10 L 12 0"
+                                          Stroke="White"
+                                          StrokeThickness="2"
+                                          StrokeStartLineCap="Round"
+                                          StrokeEndLineCap="Round"
+                                          StrokeLineJoin="Round"
+                                          Visibility="Collapsed" />
+                                </Border>
+                                <!-- 文字 -->
+                                <ContentPresenter Grid.Column="1"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  RecognizesAccessKey="True" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <!-- 勾选：显示对勾，背景变 Accent 蓝 -->
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
+                                    <Setter TargetName="CheckBoxBorder" Property="Background" Value="{StaticResource AccentBrush}" />
+                                    <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+                                </Trigger>
+                                <!-- 悬停 + 未勾选：边框变亮蓝，背景变 hover 灰 -->
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="True" />
+                                        <Condition Property="IsChecked" Value="False" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="{StaticResource AccentLightBrush}" />
+                                    <Setter TargetName="CheckBoxBorder" Property="Background" Value="{StaticResource BgHoverBrush}" />
+                                </MultiTrigger>
+                                <!-- 悬停 + 已勾选：背景变深蓝 -->
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="True" />
+                                        <Condition Property="IsChecked" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="CheckBoxBorder" Property="Background" Value="{StaticResource AccentDarkBrush}" />
+                                    <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="{StaticResource AccentLightBrush}" />
+                                </MultiTrigger>
+                                <!-- 禁用：灰色 -->
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="CheckBoxBorder" Property="Background" Value="{StaticResource BgInputBrush}" />
+                                    <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+                                    <Setter Property="Foreground" Value="{StaticResource TextMutedBrush}" />
+                                    <Setter TargetName="CheckMark" Property="Stroke" Value="{StaticResource TextMutedBrush}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
 
             <Style TargetType="Label">

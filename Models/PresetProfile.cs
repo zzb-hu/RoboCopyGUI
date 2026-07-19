@@ -31,6 +31,8 @@ public class PresetProfile
         if (CopyAll) args.Add("/COPYALL");
         if (CopyDirTimestamps) args.Add("/DCOPY:T");
         if (Verbose) args.Add("/V");
+        // 强制字节单位输出，让进度解析能拿到精确字节数用于速度/ETA 计算
+        args.Add("/BYTES");
         args.Add("/NJH");
         args.Add("/NJS");
         return string.Join(" ", args);
