@@ -2,12 +2,12 @@
 
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%2B-blue)](https://github.com/)
 [![.NET](https://img.shields.io/badge/.NET-8.0-purple)](https://dotnet.microsoft.com/)
-[![Tests](https://img.shields.io/badge/tests-41%20passed-brightgreen)](https://github.com/)
+[![Tests](https://img.shields.io/badge/tests-37%20passed-brightgreen)](https://github.com/)
 [![Dependencies](https://img.shields.io/badge/dependencies-0%20NuGet-success)](https://github.com/)
 
-Windows 内置 `robocopy` 命令的 WPF 图形界面封装。暗色主题、三步复制、MVVM 架构、零 NuGet 依赖、41 个单测全过。
+Windows 内置 `robocopy` 命令的 WPF 图形界面封装。暗色主题、三步复制、MVVM 架构、零 NuGet 依赖、37 个单测全过。
 
-A WPF desktop frontend for Windows' built-in `robocopy`. Dark theme, three-step copy, MVVM architecture, zero NuGet dependencies, 41 unit tests passing.
+A WPF desktop frontend for Windows' built-in `robocopy`. Dark theme, three-step copy, MVVM architecture, zero NuGet dependencies, 37 unit tests passing.
 
 ---
 
@@ -42,7 +42,6 @@ A WPF desktop frontend for Windows' built-in `robocopy`. Dark theme, three-step 
 
 ### 持久化（自动记忆，保存到 `%AppData%\RoboCopyGUI\settings.json`）
 
-- **最近 5 个源/目标路径**：右键 TextBox 弹出历史菜单，点一下即填入
 - **场景记忆**：上次选的预设或手动调过的高级参数自动恢复
 - **窗口尺寸 + 位置**：关闭时保存，下次启动恢复
 
@@ -145,13 +144,13 @@ RoboCopyGUI/
 
 ## 单元测试
 
-**41 个单测全过**，覆盖：
+**37 个单测全过**，覆盖：
 
 | 测试类 | 数量 | 覆盖内容 |
 |--------|------|----------|
 | `RobocopyOutputParserTests` | 13 | 中英文 robocopy 输出解析、横幅/段标题跳过、`*EXTRA File` 前缀、路径含正反斜杠、状态行识别 |
 | `PathValidatorTests` | 7 | 空/不存在路径、同源同目标、嵌套检测、盘符根目录识别、路径规范化 |
-| `MainViewModelTests` | 21 | 状态机迁移、BrowseSource/Dest、StartCopy 成功/失败/取消、Mirror 触发确认、最近路径加入、SelectPreset、OnAdvancedParamChanged、CaptureSettings/ApplySettings、IncludeSourceFolderName |
+| `MainViewModelTests` | 17 | 状态机迁移、BrowseSource/Dest、StartCopy 成功/失败/取消、Mirror 触发确认、SelectPreset、OnAdvancedParamChanged、CaptureSettings/ApplySettings、IncludeSourceFolderName |
 
 测试用 mock（手写 `MockDialogService` / `MockRobocopyService`，不引 Moq），不依赖文件系统和真实 robocopy 进程。
 

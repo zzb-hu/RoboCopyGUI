@@ -84,8 +84,6 @@ public class MainViewModelTests
         Assert.NotNull(vm.BrowseSourceCommand);
         Assert.NotNull(vm.BrowseDestCommand);
         Assert.NotNull(vm.OpenDestCommand);
-        Assert.NotNull(vm.UseRecentSourceCommand);
-        Assert.NotNull(vm.UseRecentDestCommand);
     }
 
     [Fact]
@@ -210,32 +208,6 @@ public class MainViewModelTests
     }
 
     [Fact]
-    public async Task StartCopy_Success_AddsToRecentHistory()
-    {
-        var existingDir = Directory.GetCurrentDirectory();
-        var destDir = Path.Combine(Path.GetTempPath(), "robocopy_recent_test_" + Guid.NewGuid().ToString("N"));
-        var robocopy = new MockRobocopyService { Result = new CopyResult { Success = true } };
-        var dialog = new MockDialogService();
-        var vm = new MainViewModel(robocopy, dialog)
-        {
-            SourcePath = existingDir,
-            DestPath = destDir
-        };
-
-        try
-        {
-            await vm.StartCopyCommand.ExecuteAsync();
-
-            Assert.Contains(existingDir, vm.RecentSources);
-            Assert.Contains(destDir, vm.RecentDestinations);
-        }
-        finally
-        {
-            if (Directory.Exists(destDir)) Directory.Delete(destDir, recursive: true);
-        }
-    }
-
-    [Fact]
     public void SelectPreset_Index1_AppliesPreset1()
     {
         var vm = CreateVm();
@@ -269,22 +241,6 @@ public class MainViewModelTests
     }
 
     [Fact]
-    public void UseRecentSourceCommand_SetsSourcePath()
-    {
-        var vm = CreateVm();
-        vm.UseRecentSourceCommand.Execute("D:\\backup\\2024");
-        Assert.Equal("D:\\backup\\2024", vm.SourcePath);
-    }
-
-    [Fact]
-    public void UseRecentDestCommand_SetsDestPath()
-    {
-        var vm = CreateVm();
-        vm.UseRecentDestCommand.Execute("E:\\dest");
-        Assert.Equal("E:\\dest", vm.DestPath);
-    }
-
-    [Fact]
     public void CaptureSettings_InitialState_ReturnsDefaultSnapshot()
     {
         var vm = CreateVm();
@@ -293,23 +249,6 @@ public class MainViewModelTests
         Assert.NotNull(settings);
         Assert.Equal("快速多线程", settings.LastPresetName);
         Assert.Equal(16, settings.LastAdvancedParams.MultiThread);
-    }
-
-    [Fact]
-    public void ApplySettings_RestoresRecentPaths()
-    {
-        var vm = CreateVm();
-        var settings = new AppSettings
-        {
-            RecentSources = new List<string> { "C:\\src1", "C:\\src2" },
-            RecentDestinations = new List<string> { "D:\\dest1" }
-        };
-
-        vm.ApplySettings(settings);
-
-        Assert.Equal(2, vm.RecentSources.Count);
-        Assert.Equal("C:\\src1", vm.SourcePath); // 第一个作为默认值
-        Assert.Equal("D:\\dest1", vm.DestPath);
     }
 
     [Fact]

@@ -186,29 +186,13 @@ public class MainViewModel : ViewModelBase
     private string _logText = "";
     public string LogText { get => _logText; set => SetProperty(ref _logText, value); }
 
-    // ============ 最近路径历史（用于右键菜单 + 启动恢复）============
-    private readonly ObservableCollection<string> _recentSources = new();
-    private readonly ObservableCollection<string> _recentDestinations = new();
-    public ObservableCollection<string> RecentSources => _recentSources;
-    public ObservableCollection<string> RecentDestinations => _recentDestinations;
-
     // ============ 持久化 ============
     /// <summary>
-    /// 从 AppSettings 恢复 ViewModel 状态（最近路径、场景记忆、高级参数）。
+    /// 从 AppSettings 恢复 ViewModel 状态（场景记忆、高级参数）。
     /// 由 App.OnStartup 调用。文件不存在或损坏时 settings 字段有默认值，安全。
     /// </summary>
     public void ApplySettings(AppSettings settings)
     {
-        // 恢复最近路径列表
-        _recentSources.Clear();
-        foreach (var s in settings.RecentSources) _recentSources.Add(s);
-        _recentDestinations.Clear();
-        foreach (var d in settings.RecentDestinations) _recentDestinations.Add(d);
-
-        // 启动时自动填上次的路径（如果有）
-        if (_recentSources.Count > 0) SourcePath = _recentSources[0];
-        if (_recentDestinations.Count > 0) DestPath = _recentDestinations[0];
-
         // 恢复"目标保留源文件夹名"偏好
         IncludeSourceFolderName = settings.IncludeSourceFolderName;
 
@@ -243,8 +227,6 @@ public class MainViewModel : ViewModelBase
 
         return new AppSettings
         {
-            RecentSources = _recentSources.ToList(),
-            RecentDestinations = _recentDestinations.ToList(),
             LastPresetName = SelectedPresetIndex.HasValue
                 ? Presets[SelectedPresetIndex.Value].Name
                 : "自定义",
@@ -287,27 +269,6 @@ public class MainViewModel : ViewModelBase
     private double _windowLeft = double.NaN;
     private double _windowTop = double.NaN;
 
-    /// <summary>复制成功后调，把源/目标加入最近路径历史（去重、最多 5 个）。</summary>
-    private void AddToRecentHistory(string source, string dest)
-    {
-        AddToHistory(_recentSources, source);
-        AddToHistory(_recentDestinations, dest);
-    }
-
-    private static void AddToHistory(ObservableCollection<string> history, string path)
-    {
-        if (string.IsNullOrWhiteSpace(path)) return;
-        // 去重（不区分大小写）
-        for (var i = history.Count - 1; i >= 0; i--)
-        {
-            if (string.Equals(history[i], path, StringComparison.OrdinalIgnoreCase))
-                history.RemoveAt(i);
-        }
-        history.Insert(0, path);
-        // 最多保留 5 个
-        while (history.Count > 5) history.RemoveAt(history.Count - 1);
-    }
-
     /// <summary>从快照恢复高级参数（用于"自定义"场景的启动恢复）。</summary>
     private void ApplySnapshot(PresetProfileSnapshot snap)
     {
@@ -329,9 +290,6 @@ public class MainViewModel : ViewModelBase
     public RelayCommand BrowseSourceCommand { get; }
     public RelayCommand BrowseDestCommand { get; }
     public RelayCommand OpenDestCommand { get; }
-    // 右键菜单"最近路径"用：参数是路径字符串
-    public RelayCommand UseRecentSourceCommand { get; }
-    public RelayCommand UseRecentDestCommand { get; }
 
     // ============ 构造 ============
     public MainViewModel(IRobocopyService robocopyService, IDialogService dialogService,
@@ -347,8 +305,6 @@ public class MainViewModel : ViewModelBase
         BrowseSourceCommand = new RelayCommand(BrowseSource);
         BrowseDestCommand = new RelayCommand(BrowseDest);
         OpenDestCommand = new RelayCommand(OpenDest, () => !string.IsNullOrEmpty(_lastDestPath));
-        UseRecentSourceCommand = new RelayCommand(p => SourcePath = p as string ?? "");
-        UseRecentDestCommand = new RelayCommand(p => DestPath = p as string ?? "");
 
         // 应用首个预设作为初始参数（与原 code-behind 行为一致）
         if (Presets.Count > 0)
@@ -646,9 +602,6 @@ public class MainViewModel : ViewModelBase
         ResultVisible = true;
         if (result.Success)
         {
-            // 成功才记入最近路径历史（失败的路径记了反而误导）
-            AddToRecentHistory(SourcePath.Trim(), DestPath.Trim());
-
             StatusHeader = "复制完成";
             ResultIcon = "✓";
             ResultBadgeBrushKey = "SuccessBrush";

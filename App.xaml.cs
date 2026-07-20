@@ -19,7 +19,7 @@ public partial class App : System.Windows.Application
         var robocopyService = new Services.RobocopyService();
         var viewModel = new ViewModels.MainViewModel(robocopyService, dialogService, configService);
 
-        // 恢复持久化设置（最近路径、场景记忆、高级参数）
+        // 恢复持久化设置（场景记忆、高级参数、窗口尺寸）
         var settings = configService.Load();
         viewModel.ApplySettings(settings);
 

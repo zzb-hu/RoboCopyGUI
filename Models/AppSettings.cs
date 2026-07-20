@@ -6,12 +6,6 @@ namespace RoboCopyGUI.Models;
 /// </summary>
 public class AppSettings
 {
-    /// <summary>最近用过的源路径（最多 5 个，最新在前）。</summary>
-    public List<string> RecentSources { get; set; } = new();
-
-    /// <summary>最近用过的目标路径（最多 5 个，最新在前）。</summary>
-    public List<string> RecentDestinations { get; set; } = new();
-
     /// <summary>上次选择的预设场景名（"快速复制"等），空表示未选。</summary>
     public string LastPresetName { get; set; } = "";
 

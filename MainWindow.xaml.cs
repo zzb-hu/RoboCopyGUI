@@ -40,11 +40,7 @@ public partial class MainWindow : Window
             _cards[i].DataContext = viewModel.Presets[i];
         _cards[0].IsChecked = true;
 
-        // ContextMenu 不在视觉树里，不会继承 Window 的 DataContext，手动设
-        SourcePathMenu.DataContext = viewModel;
-        DestPathMenu.DataContext = viewModel;
-
-        // 窗口关闭时保存设置（最近路径、场景、窗口尺寸）
+        // 窗口关闭时保存设置（场景、窗口尺寸）
         Closing += MainWindow_Closing;
     }
 

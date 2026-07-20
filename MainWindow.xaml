@@ -49,22 +49,7 @@
                                          Text="{Binding SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          AllowDrop="True"
                                          PreviewDragOver="PathBox_PreviewDragOver"
-                                         Drop="SourcePathBox_Drop">
-                                    <TextBox.ContextMenu>
-                                        <ContextMenu x:Name="SourcePathMenu">
-                                            <ContextMenu.ItemContainerStyle>
-                                                <Style TargetType="MenuItem">
-                                                    <Setter Property="Header" Value="{Binding}" />
-                                                    <Setter Property="Command" Value="{Binding UseRecentSourceCommand}" />
-                                                    <Setter Property="CommandParameter" Value="{Binding}" />
-                                                </Style>
-                                            </ContextMenu.ItemContainerStyle>
-                                            <ContextMenu.ItemsSource>
-                                                <Binding Path="RecentSources" />
-                                            </ContextMenu.ItemsSource>
-                                        </ContextMenu>
-                                    </TextBox.ContextMenu>
-                                </TextBox>
+                                         Drop="SourcePathBox_Drop" />
                             </StackPanel>
                             <Button Grid.Column="1" Content="浏览..."
                                     Style="{StaticResource SecondaryButton}"
@@ -85,22 +70,7 @@
                                          Text="{Binding DestPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          AllowDrop="True"
                                          PreviewDragOver="PathBox_PreviewDragOver"
-                                         Drop="DestPathBox_Drop">
-                                    <TextBox.ContextMenu>
-                                        <ContextMenu x:Name="DestPathMenu">
-                                            <ContextMenu.ItemContainerStyle>
-                                                <Style TargetType="MenuItem">
-                                                    <Setter Property="Header" Value="{Binding}" />
-                                                    <Setter Property="Command" Value="{Binding UseRecentDestCommand}" />
-                                                    <Setter Property="CommandParameter" Value="{Binding}" />
-                                                </Style>
-                                            </ContextMenu.ItemContainerStyle>
-                                            <ContextMenu.ItemsSource>
-                                                <Binding Path="RecentDestinations" />
-                                            </ContextMenu.ItemsSource>
-                                        </ContextMenu>
-                                    </TextBox.ContextMenu>
-                                </TextBox>
+                                         Drop="DestPathBox_Drop" />
                             </StackPanel>
                             <Button Grid.Column="1" Content="浏览..."
                                     Style="{StaticResource SecondaryButton}"
