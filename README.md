@@ -40,11 +40,6 @@ A WPF desktop frontend for Windows' built-in `robocopy`. Dark theme, three-step 
 - 全局异常兜底（Dispatcher / AppDomain / TaskScheduler 三层），不会闪退
 - 数字输入框粘贴校验，拒绝非数字内容
 
-### 持久化（自动记忆，保存到 `%AppData%\RoboCopyGUI\settings.json`）
-
-- **场景记忆**：上次选的预设或手动调过的高级参数自动恢复
-- **窗口尺寸 + 位置**：关闭时保存，下次启动恢复
-
 ### 中文友好
 
 - 自动按系统控制台代码页解码 robocopy 输出（`GetConsoleOutputCP`），中文路径不乱码
